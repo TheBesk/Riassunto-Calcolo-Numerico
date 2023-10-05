@@ -58,4 +58,12 @@ Questa è la più lunga di tutte le dimostrazioni, ma:
 
 \newpage
 \subsection{Convergenza del metodo di bisezione}
-Questa è la prima domanda in cui il prof inizia ad utilizzare la lettera $\xi$ (csi), che semplicemente indica la soluzione che stiamo cercando. Invece con $x$ (oppure ($x_n$)) indica la "soluzione" che abbiamo trovato a una certa iterazione. In generale, più iterazioni abbiamo e più la nostra $x$ si avvicina a $\xi$.\\
+Questa è la prima domanda in cui il prof inizia a utilizzare la lettera $\xi$ (csi), che semplicemente indica la soluzione che stiamo cercando. Invece con $x$ (oppure ($x_n$)) indica la "soluzione" che abbiamo trovato a una certa iterazione. In generale, più iterazioni abbiamo e più la nostra $x$ si avvicina a $\xi$.\\
+Con \underbar{convergenza} di un metodo (in questo caso la bisezione) si intende il fatto che, facendo iterazioni, ci avviciniamo sempre di più alla soluzione $\xi$, lo "zero" della funzione.\\
+Il metodo di bisezione funziona applicando iterativamente il \underbar{teorema degli zeri} (o teorema di Bolzano).
+
+\begin{tikzpicture}
+    \begin{axis} [axis lines=center, xticklabels={},yticklabels={},xtick={},ytick={}]
+        \addplot[domain=0:3.1416,smooth,thick] {cos(deg(x))};
+    \end{axis}
+    \end{tikzpicture}
