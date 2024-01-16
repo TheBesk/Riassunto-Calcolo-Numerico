@@ -47,7 +47,7 @@ Quindi uniamo i due pezzi, e otteniamo che:\\
 Che è la nostra precisione di macchina.
 \newpage
 
-\subsection{Stabilità delle operazioni}
+\subsection{Analisi di stabilità delle operazioni}
 Questa è la più lunga di tutte le dimostrazioni, ma:
 \begin{itemize}
     \item all'esame il prof ne chiede sempre metà (solitamente moltiplicazione e divisione oppure somma algebrica)
@@ -83,9 +83,96 @@ Quindi si dimostra che le tre successioni convergono ad uno zero, utilizzando il
 \begin{displaymath}
     0 \leq |\xi-a_n|, |\xi-b_n| < \frac{b-a}{2^n}\to 0, n \to \infty \overset{teor. carabinieri}{\implies} |\xi-a_n|, |\xi-b_n| \to 0, n \to \infty
 \end{displaymath}
-Qui semplicemente dichiamo che $|\xi-a_n|, |\xi-b_n|$ sono due quantità positive (per via dei valori assoluti), e da quello che abbiamo detto prima sono $\leq$ di $ \frac{b-a}{2^n}$.\\
+Qui semplicemente diciamo che $|\xi-a_n|, |\xi-b_n|$ sono due quantità positive (per via dei valori assoluti), e da quello che abbiamo detto prima sono $\leq$ di $ \frac{b-a}{2^n}$.\\
 Calcolando il $\lim_{n\to \infty} \frac{b-a}{2^n}$ otteniamo che è zero. Quindi possiamo utilizzare il teorema dei carabinieri per dire che le due successioni tendono a zero.\\
 Lo stesso ragionamento lo utilizziamo per la terza successione:
 \begin{displaymath}
     0 \leq |\xi-x_n|< \frac{b-a}{2^{n+1}}\implies |\xi-x_n| \to 0, n\to \infty
 \end{displaymath}
+
+\subsection{Stima dell'errore con residuo pesato (bisezione)}
+Prima di tutto è bene tenere a mente perché il residuo non pesato (detto anche stima a priori) non è una buona stima dell'errore.\\
+Poi, partiamo dalle ipotesi: sono le stesse del metodo di bisezione, con l'aggiunta che la funzione, oltre a essere continua in $[a,b]$, deve anche essere derivabile, e questa derivata deve essere $\neq 0$ in tutto l'intervallo.\\
+Quindi abbiamo che l'errore 
+\begin{displaymath}
+    e_n=\frac{f(x_n)}{f'(z_n)}
+\end{displaymath}
+Dove $z_n$ è un punto che appartiene all'intervallo $(x_n, \xi)$, ma non sappiamo esattamente quanto vale.\\
+Si dimostra utilizzando il teorema del valor medio (detto anche teorema di Lagrange), che dice che se $f$ è continua in $[a,b]$ e derivabile in $(a,b)$, allora esiste un punto $z$ in $(a,b):$ la retta che passa per $f(a)$ e $f(b)$ è parallela alla tangente in $z$:
+\begin{displaymath}
+    \frac{f(b)-f(a)}{b-a}=f'(z)
+\end{displaymath}
+
+\begin{center}
+    \includegraphics[scale=0.7]{./res/img/lagrange1.png}
+\end{center}
+Siccome $z_n$ è nell'intervallo $(x_n,\xi)$, e $x_n$ tende a $\xi$, allora la derivata di $z_n$ ha un valore molto vicino a quello della derivata di $\xi$.\\
+Con la notazione $int(x_n,\xi)$ indichiamo un intervallo che ha come estremi $x_n$ e $\xi$, ma non sappiamo quale dei due è più grande.\\
+La dimostrazione si fa con un'applicazione del teorema del valor medio. Supponiamo di essere nel caso in cui $\xi < xn$ (l'altro caso è analogo), e quindi $a=\xi$, $b=x_n$, e "sostituiamo" questi valori nella formula del valor medio:\\
+\begin{displaymath}
+    %f(x_n)-f(\xi)=f'(z_n)(x_n-\xi)
+    f(x_n)-f(\xi)=f'(z_n)(x_n-\xi) \xrightarrow{}\text{il denominatore lo portiamo sopra}
+\end{displaymath}
+Che si può riscrivere come
+\begin{displaymath}
+    |x_n-\xi|=\frac{f(x_n)}{f'(z_n)}=e_n
+\end{displaymath}
+\subsection{Convergenza globale del metodo di Newton}
+Il metodo di Newton è un altro metodo iterativo per trovare gli zeri di una funzione. Rispetto alla bisezione converge molto più rapidamente, ma ha bisogno di ipotesi più forti\footnote[1]{vedi lezione 9 - confronto tra bisezione e metodo di Newton}.\\
+Questo è il metodo di Newton:
+\begin{align*}
+    &\systeme{y = 0, y = f(x_n)+f'(x_n)(x-x_n)}  \quad \Rightarrow \quad x_{n+1} = x_n-\frac{f(x_n)}{f'(x_n)}
+\end{align*}
+Queste sono le ipotesi:
+\begin{equation*}
+    \begin{cases}
+        f \in C^2[a,b] & \text{la funzione ha derivata seconda e } f''(x) \text{ è continua} \\
+        f(a)f(b) < 0   & f(a) \text{ e } f(b) \text{ hanno segno opposto}\\
+        f''(x)>0 \forall x \in [a,b] & \text {dimostriamo solo il caso di concavità stretta}\\
+        x_0: f(x_0)f''(x_0)>0 & \text{punto iniziale "scelto bene"}
+    \end{cases}
+    \end{equation*}
+Riguardo la scelta del punto iniziale, è una condizione importante, altrimenti il metodo non converge alla soluzione.\\
+Nella dimostrazione vengono illustrati graficamente quattro casi differenti, in base al segno di $f''(x)$ e se $f(a)>f(b)$ (oppure viceversa). Basta farne solo uno (gli altri sono uguali), per comodità scegliamo il primo, che è quello che tratta anche il prof. a lezione:\newline
+CASO \circled{1}:
+\begin{center}
+    \includegraphics[scale=0.5]{./res/img/newton1.png}
+\end{center}
+\begin{itemize}
+    \item $f(a)<0, f(b)>0$
+    \item $f''(x)>0 \forall x \in [a,b]$
+    \item $x_0 \in (\xi,b]$
+\end{itemize}
+Dobbiamo dimostrare due cose: innanzitutto, per induzione, se l'$n$-esimo termine appartiene all'intervallo $(\xi,b]$, allora lo stesso vale per il termine $n+1$-esimo. La dim. si fa a parole.\\
+Poi bisogna dimostrare che ${x_n}$ è decrescente. Qui si riprende la definizione di metodo di Newton:
+\begin{displaymath}
+    x_{n+1} = x_n-\frac{f(x_n)}{f'(x_n)}
+\end{displaymath}
+Guardando il grafico del caso \circled{1} si capisce che, nell'intervallo $(\xi,b]$, $f(x)$ è sempre $>0$.\\
+Stessa cosa per $f'(x_n)$, che potrebbe essere negativo solo se $f''(x)$ cambiasse segno in $(\xi,b]$, cosa che escludiamo (vedi le ipotesi iniziali).\\
+Quindi $x_{n+1}$ è dato da $x_n$ a cui viene sottratta una quantità positiva. Questo è sufficiente per dire che la successione ${x_n}$ è decrescente.\\
+Infine diciamo che, visto che la successione è decrescente, per il teorema della monotonia diciamo che il limite (per $n\rightarrow \infty$) della successione è il suo estremo inferiore, che il prof indica con la lettera $\eta$.\\
+Quindi passiamo al limite della formula, e diciamo che:
+\begin{displaymath}
+    \eta=\lim_{}x_{n+1}=\lim_{}\left ( x_n-\frac{f(x_n)}{f'(x_n)} \right )
+\end{displaymath}
+Dopo un po' di proprietà di limiti e continuità otteniamo
+\begin{displaymath}
+    \eta= x_n-\frac{f(\eta))}{f'(\eta)}
+\end{displaymath}
+Infine diciamo che
+\begin{displaymath}
+    \frac{f(\eta)}{f'(\eta)}=0 \Rightarrow f(\eta)=0\Rightarrow \eta = \xi
+\end{displaymath}
+
+\subsection{Ordine di convergenza del metodo di Newton}
+Le ipotesi di partenza sono le stesse della domanda precedente, con l'aggiunta che la derivata prima deve essere $\neq 0$ per ogni x contenuto in un sottointervallo di $[a,b]$. Questo ci servirà più avanti, per evitare la divisione per zero.
+
+\subsection{Ordine di convergenza delle iterazioni di punto fisso}
+
+\subsection{Esistenza e unicità dell'interpolazione polinomiale}
+
+\subsection{Convergenza uniforme dell'interpolazione lineare a tratti}
+
+\subsection{Stime di condizionamento: perturbazione termine noto}
+\url{http://dm.unife.it/~tinti/Didattica/Labcn/lucidi9.pdf}

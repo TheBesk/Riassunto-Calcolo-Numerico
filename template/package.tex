@@ -11,6 +11,7 @@
 \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
 \usepackage[toc]{appendix}
 \usepackage{caption}
+\usepackage {systeme}
 
 \hypersetup{
 	colorlinks=true,
@@ -259,5 +260,7 @@
 }
 
 \usepackage{tikz}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
 \usetikzlibrary{decorations.pathreplacing}
 \usepackage{pgfplots}
