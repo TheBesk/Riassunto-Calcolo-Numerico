@@ -174,5 +174,47 @@ Le ipotesi di partenza sono le stesse della domanda precedente, con l'aggiunta c
 
 \subsection{Convergenza uniforme dell'interpolazione lineare a tratti}
 
-\subsection{Stime di condizionamento: perturbazione termine noto}
-\url{http://dm.unife.it/~tinti/Didattica/Labcn/lucidi9.pdf}
+\subsection{Stime di condizionamento: perturbazione termine noto} 
+Partiamo innanzitutto da alcune definizioni, utili ad aggiungere un po' di contesto:\\
+\underline{NORMA VETTORIALE}: La norma indica il modulo (lunghezza) del vettore, si utilizza quando bisogna confrontare la grandezza di diversi vettori o matrici.\footnote[2]{\url{https://www.youmath.it/lezioni/algebra-lineare/matrici-e-vettori/882-norma-e-prodotto-scalare.html}}\\
+\underline{SISTEMA LINEARE}: è un sistema di equazioni lineari, ossia un sistema costituito da equazioni in più incognite ove ogni incognita compare con esponente 1. Nel nostro caso avremo un sistema di $n$ equazioni in $n$ incognite (questo ci serve perché la matrice dei coefficienti $A$ deve essere invertibile).\\
+La \underline{perturbazione} è un errore generico (non sappiamo se è dovuto ad approssimazioni o ha altre cause), e va a modificare il risultato. Nel nostro caso, abbiamo che la perturbazione è sul termine noto, che è $b$, quindi il termine noto con l'errore lo indichiamo con $\tilde{b}$, definito nel seguente modo:\\
+$\tilde{b}=b+\delta b$ ovvero b perturbato è determinato dal valore originale ($b$) a cui aggiungiamo l'errore ($\delta b$), che può essere una quantità positiva o negativa.\\
+Quindi, avendo un errore sul termine noto del sistema, questo avrà conseguenze anche sulle soluzioni dello stesso, e quindi la perturbazione sarà presente anche sul vettore delle soluzioni $x$.\\
+Se il sistema non affetto da errori è $Ax=b$, il sistema perturbato sarà $A\tilde{x}=\tilde{b}$\\
+Il \underline{condizionamento} è la risposta del sistema agli errori sui dati:se il sistema è mal condizionato, un piccolo errore sui dati comporta ad una grande differenza sulla soluzione.\\
+Nella dimostrazione\footnote[3]{Per approfondire: \url{http://dm.unife.it/~tinti/Didattica/Labcn/lucidi9.pdf}} non è obbligatorio scrivere entrambe le disuguaglianze fondamentali (visto che utilizziamo solo la prima):\\
+$\lVert Ax \rVert \leq \lVert A \rVert \cdot \lVert x \rVert \quad $1° disuguaglianza fondamentale\\
+Ora scriviamo le ipotesi:
+\begin{itemize}
+    \item $A \in {\rm I\!R}^{n\times n}$ non singolare
+    \item $x \in {\rm I\!R}^n$ soluzione del sistema $Ax=b$
+    \item $\tilde{x}=x+\delta x$ soluzione del sistema $A\tilde{x}=\tilde{b}$, con $\tilde{b}=b+\delta b$, $b \neq 0$
+\end{itemize}
+Fissata una norma $\lVert \cdot \rVert \in {\rm I\!R}$, affermiamo che vale la seguente stima dell'errore relativo su $x$ (le norme vanno messe in tutte le disuguaglianze della dimostrazione):\\
+\begin{displaymath}
+    \frac{\lVert \delta x \rVert}{\lVert x \rVert} \leq k(A)\frac{\lVert \delta b \rVert}{\lVert b\rVert} \quad \text{con} \quad k(A)=\lVert A \rVert \cdot \lVert A^{-1}\rVert
+\end{displaymath}
+La dimostrazione inizia osservando che il sistema di partenza può essere scritto come $x=A^{-1}b$, perché $A^{-1}$ è l'inversa di A, ovvero $A^{-1}=\frac{1}{A}$.
+\begin{align*}
+    &\systeme{\tilde{x} = x+\delta x, \tilde{x} = A^{-1}\tilde{b}=A^{-1}(b+\delta b) = A^{-1}b + A^{-1}\delta b}  \quad \Rightarrow \quad \highlightRED{\lVert \delta x \rVert} = \lVert A^{-1}\delta b \rVert \leq \raisebox{-10pt}{*} \highlightRED{\lVert A^{-1} \rVert \cdot \lVert \delta b \rVert}
+\end{align*}
+* 1° disusuaglianza fondamentale\\
+$\lVert \delta x \rVert = \lVert A^{-1}\delta b \rVert$ la otteniamo dalle ipotesi iniziali e da un pezzo della dimostrazione. Infatti $\delta x=x+\tilde{x}$. Poco fa abbiamo visto che $\tilde{x}=A^{-1}\tilde{b}$, che è uguale a $x+A^{-1}\delta b$. A questo punto otteniamo\\ $x+\delta x=x+A^{-1}\delta b$. A questo punto semplifichiamo $x$ e mettiamo le norme.\\
+Finora abbiamo stimato $\lVert \delta x \rVert$, adesso stimiamo il denominatore, $\lVert \frac{1}{x} \rVert$, da sotto $\lVert x \rVert$:\\
+\begin{displaymath}
+    \lVert b \rVert=\lVert Ax \rVert \leq \raisebox{-10pt}{*} \lVert A \rVert \cdot \lVert x \rVert
+\end{displaymath}
+* 1° disusuaglianza fondamentale\\
+Da cui
+\begin{displaymath}
+    \lVert x \rVert \geq \frac{\lVert b \rVert}{\lVert A \rVert}
+\end{displaymath}
+e
+\begin{displaymath}
+    \highlightCYAN{\frac{1}{\lVert x \rVert} \leq \frac{\lVert A \rVert}{\lVert b \rVert}}
+\end{displaymath}
+Perciò (si mettono insieme le parti colorate per ritornare alla stima iniziale):
+\begin{displaymath}
+    \frac{\highlightRED{\lVert \delta x \rVert }}{\lVert x \rVert } \leq \frac{\highlightRED{\lVert A^{-1} \rVert \cdot \lVert \delta b \rVert }}{\highlightCYAN{\lVert x \rVert }} \leq \lVert A^{-1} \rVert  \cdot \highlightCYAN{\lVert A \rVert} \cdot \frac{\lVert \delta b \rVert }{\highlightCYAN{\lVert b \rVert }} = k(A)\cdot \frac{\lVert \delta b \rVert }{\lVert b \rVert }
+\end{displaymath}

@@ -264,3 +264,9 @@
             \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
 \usetikzlibrary{decorations.pathreplacing}
 \usepackage{pgfplots}
+
+\newcommand{\highlightRED}[1]{%
+  \colorbox{red!50}{$\displaystyle#1$}}
+
+\newcommand{\highlightCYAN}[1]{%
+\colorbox{cyan!50}{$\displaystyle#1$}}
