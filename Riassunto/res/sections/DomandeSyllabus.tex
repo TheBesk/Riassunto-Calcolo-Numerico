@@ -115,7 +115,7 @@ La dimostrazione si fa con un'applicazione del teorema del valor medio. Supponia
 \end{displaymath}
 Che si può riscrivere come
 \begin{displaymath}
-    |x_n-\xi|=\frac{f(x_n)}{f'(z_n)}=e_n
+    |x_n-\xi|=\frac{|f(x_n)|}{|f'(z_n)|}=e_n
 \end{displaymath}
 \subsection{Convergenza globale del metodo di Newton}
 Il metodo di Newton è un altro metodo iterativo per trovare gli zeri di una funzione. Rispetto alla bisezione converge molto più rapidamente, ma ha bisogno di ipotesi più forti\footnote[1]{vedi lezione 9 - confronto tra bisezione e metodo di Newton}.\\
@@ -132,7 +132,7 @@ Queste sono le ipotesi:
         x_0: f(x_0)f''(x_0)>0 & \text{punto iniziale "scelto bene"}
     \end{cases}
     \end{equation*}
-Riguardo la scelta del punto iniziale, è una condizione importante, altrimenti il metodo non converge alla soluzione.\\
+Riguardo la scelta del punto iniziale, è una condizione importante, altrimenti il metodo non converge alla soluzione. Nel nostro caso, dove abbiamo concavità stretta ($f''(x)>0$), dobbiamo per forza scegliere un punto $f(x)>0$.\\
 Nella dimostrazione vengono illustrati graficamente quattro casi differenti, in base al segno di $f''(x)$ e se $f(a)>f(b)$ (oppure viceversa). Basta farne solo uno (gli altri sono uguali), per comodità scegliamo il primo, che è quello che tratta anche il prof. a lezione:\newline
 CASO \circled{1}:
 \begin{center}
@@ -166,7 +166,33 @@ Infine diciamo che
 \end{displaymath}
 
 \subsection{Ordine di convergenza del metodo di Newton}
-Le ipotesi di partenza sono le stesse della domanda precedente, con l'aggiunta che la derivata prima deve essere $\neq 0$ per ogni x contenuto in un sottointervallo di $[a,b]$. Questo ci servirà più avanti, per evitare la divisione per zero.
+Per prima cosa è importante riguardare la formula di Taylor, servirà per la dimostrazione.\\
+Le ipotesi di partenza sono le stesse della domanda precedente, con l'aggiunta che la derivata prima deve essere $\neq 0$ per ogni x contenuto in un sottointervallo di $[a,b]$. Questo ci servirà più avanti, per evitare la divisione per zero.\\
+Dalle ipotesi, facciamo la seguente affermazione:
+\begin{displaymath}
+    e_{n+1}\leq c e^2_n, \quad n \geq 0, \quad c=\frac{1}{2}\cdot \frac{M_2}{m_1}
+\end{displaymath}
+\begin{displaymath}
+    \text{con}: M_2=\max_{x \in [c,d]}|f''(x)|, \quad m_1=\min_{x \in [c,d]}|f'(x)|>0
+\end{displaymath}
+In pratica stiamo affermando che l'errore cala od ogni iterazione di un fattore quadratico moltiplicato per una costante c. La costante c (non l'ho capita molto bene) così definita misura la velocità di variazione della derivata seconda (una cosa simile compare nella stima dell'errore con residuo pesato).\\
+Per dimostrare che l'affermazione appena fatta è vera, calcoliamo lo zero della funzione, $f(\xi)$ con la formula di Taylor, \footnote[2]{\url{https://it.wikipedia.org/wiki/Serie_di_Taylor}}, che ci consente di avere una buona approssimazione del risultato:
+\begin{displaymath}
+    f(\xi)=f(x_n)+f'(x_n)(\xi - x_n)+\frac{f''(z_n)}{2}(\xi - x_n)^2 \quad z_n \in int(x_n,\xi) \subset [c,d]
+\end{displaymath}
+Non so perché serve mettere $z_n$, però viene messo nella derivata seconda.\\
+Sappiamo che $f(\xi)$ è zero, quindi lo togliamo. Portiamo a sinistra $f(x_n)$, che cambierà segno, e dividiamo entrambi i menbri per $f'(x_n)$, e otteniamo questo:
+\begin{displaymath}
+    -\frac{f(x_n)}{f'(x_n)}=\xi - x_n + \frac{f''(z_n)}{2f'(x_n)}(\xi - x_n)^2
+\end{displaymath}
+Adesso a sinistra abbiamo letteralmente la definizione del metodo di Newton, quindi possiamo sostituire il rapporto con $x_{n+1}-x_n$, e semplifichiamo il termine $-x_n$, e otteniamo questo:
+\begin{displaymath}
+    \highlightRED{x_{n+1}}=\highlightRED{\xi} + \highlightYELLOW{\frac{f''(z_n)}{2f'(x_n)}}\highlightCYAN{(\xi - x_n)^2}
+\end{displaymath}
+Da qui ritorniamo subito all'affermazione iniziale.\\
+Intanto l'errore al passo $n+1$ è la differenza in modulo tra il valore calcolato al passo n+1 e la soluzione vera: $\highlightRED{e_{n+1}}=|x_{n+1}-\xi|$. Aggiungiamo il modulo perché l'errore è una quantità positiva (vogliamo sapere quanto è grande l'errore).\\
+$(\xi - x_n)^2$ è l'errore al passo $n$, al quadrato, ovvero $\highlightCYAN{e_n^2}$ (qui non abbiamo bisogno del modulo perché è tutto elevato al quadrato).\\
+Quello che resta è la costante moltiplicativa $\highlightYELLOW{c}$ (dove, per qualche motivo, bisogna aggiungere i moduli).
 
 \subsection{Ordine di convergenza delle iterazioni di punto fisso}
 
@@ -176,14 +202,14 @@ Le ipotesi di partenza sono le stesse della domanda precedente, con l'aggiunta c
 
 \subsection{Stime di condizionamento: perturbazione termine noto} 
 Partiamo innanzitutto da alcune definizioni, utili ad aggiungere un po' di contesto:\\
-\underline{NORMA VETTORIALE}: La norma indica il modulo (lunghezza) del vettore, si utilizza quando bisogna confrontare la grandezza di diversi vettori o matrici.\footnote[2]{\url{https://www.youmath.it/lezioni/algebra-lineare/matrici-e-vettori/882-norma-e-prodotto-scalare.html}}\\
+\underline{NORMA VETTORIALE}: La norma indica il modulo (lunghezza) del vettore, si utilizza quando bisogna confrontare la grandezza di diversi vettori o matrici.\footnote[3]{\url{https://www.youmath.it/lezioni/algebra-lineare/matrici-e-vettori/882-norma-e-prodotto-scalare.html}}\\
 \underline{SISTEMA LINEARE}: è un sistema di equazioni lineari, ossia un sistema costituito da equazioni in più incognite ove ogni incognita compare con esponente 1. Nel nostro caso avremo un sistema di $n$ equazioni in $n$ incognite (questo ci serve perché la matrice dei coefficienti $A$ deve essere invertibile).\\
 La \underline{perturbazione} è un errore generico (non sappiamo se è dovuto ad approssimazioni o ha altre cause), e va a modificare il risultato. Nel nostro caso, abbiamo che la perturbazione è sul termine noto, che è $b$, quindi il termine noto con l'errore lo indichiamo con $\tilde{b}$, definito nel seguente modo:\\
 $\tilde{b}=b+\delta b$ ovvero b perturbato è determinato dal valore originale ($b$) a cui aggiungiamo l'errore ($\delta b$), che può essere una quantità positiva o negativa.\\
 Quindi, avendo un errore sul termine noto del sistema, questo avrà conseguenze anche sulle soluzioni dello stesso, e quindi la perturbazione sarà presente anche sul vettore delle soluzioni $x$.\\
 Se il sistema non affetto da errori è $Ax=b$, il sistema perturbato sarà $A\tilde{x}=\tilde{b}$\\
 Il \underline{condizionamento} è la risposta del sistema agli errori sui dati:se il sistema è mal condizionato, un piccolo errore sui dati comporta ad una grande differenza sulla soluzione.\\
-Nella dimostrazione\footnote[3]{Per approfondire: \url{http://dm.unife.it/~tinti/Didattica/Labcn/lucidi9.pdf}} non è obbligatorio scrivere entrambe le disuguaglianze fondamentali (visto che utilizziamo solo la prima):\\
+Nella dimostrazione\footnote[4]{Per approfondire: \url{http://dm.unife.it/~tinti/Didattica/Labcn/lucidi9.pdf}} non è obbligatorio scrivere entrambe le disuguaglianze fondamentali (visto che utilizziamo solo la prima):\\
 $\lVert Ax \rVert \leq \lVert A \rVert \cdot \lVert x \rVert \quad $1° disuguaglianza fondamentale\\
 Ora scriviamo le ipotesi:
 \begin{itemize}
