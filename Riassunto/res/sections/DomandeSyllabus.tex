@@ -185,7 +185,7 @@ Sappiamo che $f(\xi)$ è zero, quindi lo togliamo. Portiamo a sinistra $f(x_n)$,
 \begin{displaymath}
     -\frac{f(x_n)}{f'(x_n)}=\xi - x_n + \frac{f''(z_n)}{2f'(x_n)}(\xi - x_n)^2
 \end{displaymath}
-Adesso a sinistra abbiamo letteralmente la definizione del metodo di Newton, quindi possiamo sostituire il rapporto con $x_{n+1}-x_n$, e semplifichiamo il termine $-x_n$, e otteniamo questo:
+Adesso a sinistra abbiamo letteralmente la definizione del metodo di Newton, quindi possiamo sostituire il rapporto con $x_{n+1}-x_n$, semplifichiamo il termine $-x_n$, e otteniamo questo:
 \begin{displaymath}
     \highlightRED{x_{n+1}}=\highlightRED{\xi} + \highlightYELLOW{\frac{f''(z_n)}{2f'(x_n)}}\highlightCYAN{(\xi - x_n)^2}
 \end{displaymath}
@@ -195,9 +195,36 @@ $(\xi - x_n)^2$ è l'errore al passo $n$, al quadrato, ovvero $\highlightCYAN{e_
 Quello che resta è la costante moltiplicativa $\highlightYELLOW{c}$ (dove, per qualche motivo, bisogna aggiungere i moduli).
 
 \subsection{Ordine di convergenza delle iterazioni di punto fisso}
+Punto fisso:
+
+Il teorema delle contrazioni afferma, spiegato in termini poco formali, che una funzione $f$ che "contrae" le distanze ha un unico punto fisso, ....\\
+Link utile: \url{https://www1.mat.uniroma1.it/people/orsina/Frattali.pdf}
+
 
 \subsection{Esistenza e unicità dell'interpolazione polinomiale}
-
+\textbf{UNICITÀ:}\\
+Per dimostrare che il polinomio interpolatore è unico si procede per assurdo, supponendo di avere due polinomi, $p$,$q$, diversi, ed entrambi che interpolano in tutti i punti $x_i$ (importante dire che se i punti campionati sono $n+1$, il grado massimo dei polinomi è $n$).\\
+Siccome stiamo affermando che entrambi i polinomi sono interpolatori, allora i loro valori nei punti campionati sono uguali, quindi:
+\begin{displaymath}
+    p(x_i)-q(x_i)=0 \quad \forall 0 \leq i \leq n
+\end{displaymath}
+Da questo possiamo dire che $p-q$ ha $n+1$ zeri distinti.\\
+Quindi, per il teorema fondamentale dell'algebra, $p-q$ può avere al massimo $n$ zeri distinti, a meno che non sia il polinomio nullo. Quindi, si vede che, se $p-q=0$, vale che $p=q$, che va contro l'ipotesi iniziale (e quindi si dimostra l'unicità).\\
+\textbf{ESISTENZA:}\\
+Per dimostrare l'esistenza, utilizziamo il metodo del polinomio di Lagrange $l_i(x)$. Prima affermiamo il metodo, e poi dimostriamo che trova un polinomio interpolatore.\\
+\begin{displaymath}
+    l_i(x)=\prod_{j=0,j\neq i}^{n}\frac{x-x_j}{x_i-x_j}
+\end{displaymath}
+Il prof scrive il polinomio con una scrittura diversa (distingue numeratore e denominatore) ma equivalente.\\
+$l_i(x)$ è un polinomio perché il numeratore è un polinomio, e il denominatore è un numero $\neq 0$.\\
+Osserviamo che questo polinomio si annulla in tutti i valori tranne uno, dove si semplificano tutti i termini e vale 1, questo il prof lo indica come delta di Kronecker, $\delta_{ik}$.\\
+Adesso definiamo il polinomio \underline{interpolatore} di Lagrange, indicato con $f_n(x)$, che è la somma di tutti i polinomi $l_i$ moltiplicato per i corrispondenti valori campionati $y_i$:
+\begin{displaymath}
+    f_n(x)=\sum_{i=0}^{n}y_il_i(x)
+\end{displaymath}
+Infine, per verificare che il polinomio interpola, si sostituisce a $l_i(x_k)$ il delta di Kronecker, che poi si sewmplifica perché se $i=k$ vale 1, altrimenti vale 0.\\
+Non è semplicissima da capire questa dimostrazione, però consiglio di guardare i primi minuti di questo video, dove viene mostrato un esempio applicativo:\\
+\url{https://www.youtube.com/watch?v=GITFkl8I3qI}
 \subsection{Convergenza uniforme dell'interpolazione lineare a tratti}
 
 \subsection{Stime di condizionamento: perturbazione termine noto} 
